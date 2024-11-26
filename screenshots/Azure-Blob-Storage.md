@@ -1,0 +1,1 @@
+# Azure Blob Storage screenshots showing stored output files (processed data)
