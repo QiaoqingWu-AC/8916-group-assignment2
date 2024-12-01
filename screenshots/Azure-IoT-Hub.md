@@ -1,4 +1,4 @@
-# Azure IoT Hub configuration screenshots
+# Azure IoT Hub configuration
 
 ## 1. Create an IoT Hub in Azure
 
