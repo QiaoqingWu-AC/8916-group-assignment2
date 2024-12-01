@@ -141,7 +141,7 @@ The solution is to build a real-time monitoring system that:
     ![ConnectionString](./screenshots/ConnectionString.png)
     
     4. Installing Required Libraries
-      - Navigate to the project directory: 
+        - Navigate to the project directory: 
         ```
         cd sensor-simulation
         ```
