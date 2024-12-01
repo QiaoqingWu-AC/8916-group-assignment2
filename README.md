@@ -38,7 +38,7 @@ The solution is to build a real-time monitoring system that:
     }
     ```
     - scripts to simulate IoT sensors at three key locations on the Rideau Canal (e.g., Dow's Lake, Fifth Avenue, NAC):
-    ```nodejs
+    ```javascript
     const { Client } = require('azure-iot-device');
     const { Mqtt } = require('azure-iot-device-mqtt');
     const { Message } = require('azure-iot-device');
