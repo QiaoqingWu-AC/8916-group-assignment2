@@ -129,46 +129,45 @@ The solution is to build a real-time monitoring system that:
   - Explain how the processed data is organized in Blob Storage (e.g., folder structure, file naming convention).
   - Specify the formats of stored data (JSON/CSV).
 ## Usage Instructions
-- ### Running the IoT Sensor Simulation**:
-  - Provide step-by-step instructions for running the simulation script or application.
-  **Azure IoT Hub configuration:**
-  1. Create an IoT Hub in Azure
-  
-  ![IoTHub](./IoTHub.png)
-  
-  2. Add a device
-  
-  ![CreateADevice](./CreateADevice.png)
-  
-  3. Copy the connection string after creating the device
-  
-  ![ConnectionString](./ConnectionString.png)
-  
-  4. Installing libraries
-  
-  - Navigate to the project directory: 
-  ```
-  cd sensor-simulation
-  ```
-  - Execute the following commands:
-  ```
-  npm install azure-iot-device azure-iot-device-mqtt
-  pip install azure-iot-device
-  ```
-  (I've found that sometimes pip install was not enough)
-  
-  5. Replace connection string in script(simulate-sensors.js) w/ the connection string copied from device
-  
-  ![ReplaceConnectionString](./ReplaceConnectionString.png)
-  
-  6. Run the script to start simulating sensor data
-  
-  - In sensor-simulation directory, run:
-  ```
-  **node simulate-sensors.js
-  ```
-  ![SimulateSensorsTest](./SimulateSensorsTest.png)
-  
+- ### Running the IoT Sensor Simulation:
+  - Step-by-step instructions for running the simulation script and Azure IoT Hub configuration
+    1. Create an IoT Hub in Azure
+    
+    ![IoTHub](./screenshots/IoTHub.png)
+    
+    2. Add a device
+    
+    ![CreateADevice](./screenshots/CreateADevice.png)
+    
+    3. Copy the connection string after creating the device
+    
+    ![ConnectionString](./screenshots/ConnectionString.png)
+    
+    4. Installing libraries
+    
+    - Navigate to the project directory: 
+    ```
+    cd sensor-simulation
+    ```
+    - Execute the following commands:
+    ```
+    npm install azure-iot-device azure-iot-device-mqtt
+    pip install azure-iot-device
+    ```
+    (I've found that sometimes pip install was not enough)
+    
+    5. Replace connection string in script(simulate-sensors.js) w/ the connection string copied from device
+    
+    ![ReplaceConnectionString](./screenshots/ReplaceConnectionString.png)
+    
+    6. Run the script to start simulating sensor data
+    
+    - In sensor-simulation directory, run:
+    ```
+    node simulate-sensors.js
+    ```
+    ![SimulateSensorsTest](./screenshots/SimulateSensorsTest.png)
+    
 - **Configuring Azure Services**:
   - Describe how to set up and run the IoT Hub and Stream Analytics job.
 - **Accessing Stored Data**:
