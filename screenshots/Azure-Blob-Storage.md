@@ -1,4 +1,4 @@
-# Azure Blob Storage screenshots showing stored output files (processed data)
+# Azure Blob Storage configuration & output in container
 
 ## 1. Make a storage account
 
