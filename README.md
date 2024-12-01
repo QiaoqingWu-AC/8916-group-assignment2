@@ -134,13 +134,13 @@ The solution is to build a real-time monitoring system that:
     1. Create an IoT Hub in Azure
     ![IoTHub](./screenshots/IoTHub.png)
 
-    2. Add a device
+    2. Register a device                           
     ![CreateADevice](./screenshots/CreateADevice.png)
-    
+
     3. Copy the connection string after creating the device
     ![ConnectionString](./screenshots/ConnectionString.png)
     
-    4. Installing libraries
+    4. Installing Required Libraries
       - Navigate to the project directory: 
         ```
         cd sensor-simulation
