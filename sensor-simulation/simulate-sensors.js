@@ -2,8 +2,7 @@ const { Client } = require('azure-iot-device');
 const { Mqtt } = require('azure-iot-device-mqtt');
 const { Message } = require('azure-iot-device');
 
-// To Do: replace with IoT Hub device connection string
-const CONNECTION_STRING = "replace with IoT Hub device connection string";
+const CONNECTION_STRING = "HostName=iothub1001.azure-devices.net;DeviceId=Sensor1;SharedAccessKey=tBXYNF64zl3SWGY1bQHQF144+kXwChbjnK68F+mNhmI=";
 
 // List of location to simulate
 const LOCATIONS = ["Dow's Lake", "Fifth Avenue", "NAC"];
