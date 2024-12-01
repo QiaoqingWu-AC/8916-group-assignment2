@@ -22,7 +22,8 @@
 ## 5. Make a query
 
 - **Go to the query tab and replace the query with the following:**
-'SELECT
+```python
+SELECT
     IoTHub.ConnectionDeviceId AS DeviceId,
     AVG(iceThickness) AS AvgIceThickness,
     AVG(surfaceTemperature) AS AvgSurfaceTemp,
@@ -32,7 +33,8 @@ INTO
 FROM
     [iothub1001]
 GROUP BY
-    IoTHub.ConnectionDeviceId, TumblingWindow(second, 60)'
+    IoTHub.ConnectionDeviceId, TumblingWindow(second, 60)
+```
 
 - **This query will calculate the average ice thickness & average surface temperature**
 
