@@ -38,7 +38,7 @@ The solution is to build a real-time monitoring system that:
     }
     ```
     - scripts to simulate IoT sensors at three key locations on the Rideau Canal (e.g., Dow's Lake, Fifth Avenue, NAC):
-    ```python
+    ```nodejs
     const { Client } = require('azure-iot-device');
     const { Mqtt } = require('azure-iot-device-mqtt');
     const { Message } = require('azure-iot-device');
@@ -148,9 +148,7 @@ The solution is to build a real-time monitoring system that:
         - Execute the following commands:
         ```
         npm install azure-iot-device azure-iot-device-mqtt
-        pip install azure-iot-device
         ```
-        (I've found that sometimes pip install was not enough)
     
     5. Replace connection string in script(simulate-sensors.js) w/ the connection string copied from device
       ![ReplaceConnectionString](./screenshots/ReplaceConnectionString.png)
