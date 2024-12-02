@@ -1,4 +1,4 @@
-# 8916-group-assignment2
+# 8916 Group 6: Assignment 2
 Group Member List
 - Gao, Yue - 040895157
 - Watson-Danis, Caleb - 041041241
