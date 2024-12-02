@@ -195,12 +195,12 @@ cd sensor-simulation
 npm install azure-iot-device azure-iot-device-mqtt
 ```                       
 #### 3. Configure the Connection String
-  - Replace `ConnectionStringHere` in script `simulate-sensor.js` with the **Device Connection String** copied from Azure IoT Hub.
-  ```javascript
-  const CONNECTION_STRING = "ConnectionStringHere";
-  ```
+Replace `ConnectionStringHere` in script `simulate-sensor.js` with the **Device Connection String** copied from Azure IoT Hub.
+```javascript
+const CONNECTION_STRING = "ConnectionStringHere";
+```
 #### 4. Run the Script to start simulating data
-  - The script will generate and send simulated sensor data to Azure IoT Hub every 10 seconds, and console logs indicating the data being sent.
+The script will generate and send simulated sensor data to Azure IoT Hub every 10 seconds, and console logs indicating the data being sent.
 ```bash
 node simulate-sensor.js
 ```
