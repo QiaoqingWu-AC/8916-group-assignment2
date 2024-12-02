@@ -58,13 +58,21 @@ const { Client } = require('azure-iot-device');
 const { Mqtt } = require('azure-iot-device-mqtt');
 const { Message } = require('azure-iot-device');
 
-const CONNECTION_STRING = "ConnectionStringHere";
+// List of three devices' connection string
+const CONNECTION_STRINGS = {
+  "Dow's Lake": "ConnectionStringForDL",
+  "Fifth Avenue": "ConnectionStringForFA",
+  "NAC": "ConnectionStringForNAC"
+};
 
 // List of location to simulate
 const LOCATIONS = ["Dow's Lake", "Fifth Avenue", "NAC"];
 
-// Create an IoT Hub client
-const client = Client.fromConnectionString(CONNECTION_STRING, Mqtt);
+// Create IoT Hub clients for each device
+const clients = Object.keys(CONNECTION_STRINGS).map(location => {
+  const client = Client.fromConnectionString(CONNECTION_STRINGS[location], Mqtt);
+  return { location, client };
+});
 
 // Function to generate random sensor data
 function generateSensorData(location) {
@@ -80,18 +88,19 @@ function generateSensorData(location) {
 
 // Function to send sensor data for all locations
 function sendSensorData() {
-  LOCATIONS.forEach((location) => {
+  clients.forEach(({ location, client }) => {
     const data = generateSensorData(location);
-    const message = new Message(JSON.stringify(data)); // put message into JSON formate
+    // put message into JSON format
+    const message = new Message(JSON.stringify(data));
     // show data in console log
-    console.log(`Sending data: ${JSON.stringify(data)}`);
+    console.log(`Sending data from ${location}: ${JSON.stringify(data)}`);
     client.sendEvent(message, (err) => {
       if (err) {
-        console.error(`Failed to send data: ${err.toString()}`);
+        console.error(`Failed to send data from ${location}: ${err.toString()}`);
       } else {
         console.log(`Message sent for location: ${location}`);
       }
-    });
+    })
   });
 }
 
@@ -99,7 +108,8 @@ function sendSensorData() {
 async function main() {
   try {
     console.log("Connecting to IoT Hub ...");
-    await client.open();
+    // Open connections for all clients
+    await Promise.all(clients.map(({ client }) => client.open()));
     console.log("Connected to IoT Hub. Starting simulation ...");
     
     // send data every 10 seconds (10000 milliseconds)
@@ -113,7 +123,8 @@ async function main() {
   // disconnect and exit when receive signal
   process.on('SIGINT', async () => {
     console.log("Disconnecting from IoT Hub ...");
-    await client.close();
+    // Close connections for all clients
+    await Promise.all(clients.map(({ client }) => client.close()));
     console.log("Disconnected. Exiting ...");
     process.exit();
   });
@@ -131,7 +142,7 @@ main();
   - In the IoT Hub, go to **Devices** and click **Add Device**.
   - Provide a name for the device (e.g., Sensor1) and click **Save**.
   - Open the created device and copy the **Connection String** for later use in the simulation script.
-  - Create three **Devices** in total indicating the three locations on the Rideau Canal Skateway.
+  - Create three **Devices** in total indicating three locations on the Rideau Canal Skateway.
 #### 3. Set Up Endpoints:
   - Azure IoT Hub has a default endpoint called `messages/events`. This is where incoming device data is routed by default.
 #### 4. Configure Message Routing:
@@ -168,9 +179,9 @@ GROUP BY
 #### 1. How the processed data is organized.
   - Processed data is stored in a folder structure:
   ```sql
-  container1001/{deviceId}/{date}/{time}
+  sensor-data/{deviceId}/{date}/{time}
   ```
-  - Example: `/container1001/Sensor1/2024/12/02/ice-data.json`
+  - Example: `/sensor-data/DowsLake/2024/12/02/ice-data.json`
   - Use descriptive names as file naming convention: `surface-temp-2024-12-02T00:00.json`
 #### 2. Data Format:
   - Store data in **JSON** format for structure and readability:
@@ -196,9 +207,14 @@ cd sensor-simulation
 npm install azure-iot-device azure-iot-device-mqtt
 ```                       
 #### 3. Configure the Connection String
-Replace `ConnectionStringHere` in script `simulate-sensor.js` with the **Device Connection String** copied from Azure IoT Hub.
+Replace `ConnectionStringForDL`, `ConnectionStringForFA`, and `ConnectionStringForNAC` in script `simulate-sensor.js` with the **Device Connection String** copied from Azure IoT Hub.
 ```javascript
-const CONNECTION_STRING = "ConnectionStringHere";
+// List of three devices' connection string
+const CONNECTION_STRINGS = {
+  "Dow's Lake": "ConnectionStringForDL",
+  "Fifth Avenue": "ConnectionStringForFA",
+  "NAC": "ConnectionStringForNAC"
+};
 ```
 #### 4. Run the Script to start simulating data
 The script will generate and send simulated sensor data to Azure IoT Hub every 10 seconds, and console logs indicating the data being sent.
@@ -209,7 +225,7 @@ node simulate-sensor.js
 ### Step 2: Configuring Azure Services
 #### 1. Set Up IoT Hub
   - Open the Azure Portal, search for "IoT Hub," and create a new instance.
-  - Register a device in the IoT Hub and copy its connection string.
+  - Register three devices in the IoT Hub and copy their connection strings.
 #### 2. Create and Run Stream Analytics Job
   - Go to the Azure Portal, search for "**Stream Analytics Jobs**" and create a new job.
   - Add **IoT Hub** as the input source and configure the consumer group.
@@ -223,7 +239,7 @@ Follow these steps to locate and view the processed data in Azure Blob Storage:
   - Navigate to the storage account in the Azure Portal.
   - Go to the **Containers** section and open the container used as the Stream Analytics
 #### 2. Locate Processed Data
-  - Browse the folder structure for `Sensor1` like: `/processed-data/Sensor1/2024/12/02/`.
+  - Browse the folder structure for devices like: `/sensor-data/DowsLake/2024/12/02/`.
 #### 3. Download or View Files
   - Select a file (e.g., `ice-data-2024-11-23T00:00.json`) to download or view.
   - The files are stored in **JSON** format, which can be opened with a text editor or a JSON viewer.
