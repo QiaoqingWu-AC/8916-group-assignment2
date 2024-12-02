@@ -22,13 +22,15 @@ The solution is to build a real-time monitoring system that:<br>
 
 ## Implementation Details
 ### IoT Sensor Simulation
-1. **How the simulated IoT sensors generate and send data to Azure IoT Hub.**<br>
+#### 1. How the simulated IoT sensors generate and send data to Azure IoT Hub.
 The simulated IoT sensors generate data using a script that mimics the real-world behavior of physical sensors. Each simulated sensor is associated with a specific location on the Rideau Canal (e.g., Dow's Lake, Fifth Avenue, NAC). The script generates random values for key data such as:
   - Ice Thickness (cm): Ranges from 20 to 50.
   - Surface Temperature (°C): Ranges from -5 to 5, formatted to one decimal place.
   - Snow Accumulation (cm): Ranges from 5 to 30.
   - External Temperature (°C): Ranges from -10 to 5, formatted to one decimal place.
   - Timestamp: The current date and time in ISO format.<br>
+
+
 The script uses the Azure IoT SDK for Node.js to send messages to Azure IoT Hub. Here's a breakdown steps:
   - Connection Setup
     - The script authenticates with Azure IoT Hub using a device connection string, which is unique for each registered IoT device.
@@ -39,7 +41,7 @@ The script uses the Azure IoT SDK for Node.js to send messages to Azure IoT Hub.
     - Each message is sent to Azure IoT Hub using the `sendEvent()` method.
     - The process is repeated at regular intervals, e.g., every 10 seconds.
 
-2. **Structure of the JSON payload:**
+#### 2. Structure of the JSON payload:
 ```json
 {
   "location": "Dow's Lake",
@@ -51,7 +53,7 @@ The script uses the Azure IoT SDK for Node.js to send messages to Azure IoT Hub.
 }
 ```
 
-3. **Scripts to simulate IoT sensors at three key locations on the Rideau Canal (e.g., Dow's Lake, Fifth Avenue, NAC):**
+#### 3. Scripts to simulate IoT sensors at three key locations on the Rideau Canal (e.g., Dow's Lake, Fifth Avenue, NAC):
 ```javascript
 const { Client } = require('azure-iot-device');
 const { Mqtt } = require('azure-iot-device-mqtt');
@@ -122,17 +124,17 @@ main();
 ```
 
 ### Azure IoT Hub Configuration
-1. **Create IoT Hub:**<br>
+#### 1. Create IoT Hub:
   - Go to the Azure Portal, search for **"IoT Hub"**, and click **Create**.
   - Fill in details like name, subscription (e.g., Azure for Students), resource group, and region (e.g., EAST US).
   - Choose the **Free Tier** for testing.
-2. **Register Devices:**<br>
+#### 2. Register Devices:
   - In the IoT Hub, go to **Devices** and click **Add Device**.
   - Provide a name for the device (e.g., Sensor1) and click **Save**.
   - Open the created device and copy the **Connection String** for later use in the simulation script.
-3. **Set Up Endpoints:**<br>
+#### 3. Set Up Endpoints:
   - Azure IoT Hub has a default endpoint called `messages/events`. This is where incoming device data is routed by default.
-4. **Configure Message Routing:**<br>
+#### 4. Configure Message Routing:
   - In the IoT Hub settings, go to **Message Routing**.
   - Add a new route to direct messages to other Azure services, such as Azure Blob Storage or Stream 
 
@@ -141,7 +143,8 @@ Describe the job configuration, including input sources, query logic, and output
 #### 1. Create a Stream Analytics Job:
   - In the Azure Portal, search for **"Stream Analytics Job"** and click **Create**.
   - Provide a name, subscription (e.g., Azure for Students), resource group, and region (e.g., EAST US).
-#### **2. Input Source:**
+#### 2. Input Source:
+  - 
 
 - **Sample SQL queries used for data processing.**
 ```sql
