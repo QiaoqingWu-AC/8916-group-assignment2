@@ -248,17 +248,24 @@ Follow these steps to locate and view the processed data in Azure Blob Storage:
 ### Key Findings
 #### Average Ice Thickness
 Aggregated every 60 seconds for each location:
-  - Dow's Lake: 29.5 cm
-  - Fifth Avenue: 30.5 cm
-  - NAC: 27.0 cm
+  - Dow's Lake: 33.2 cm
+  - Fifth Avenue: 33.8 cm
+  - NAC: 37.8 cm
 #### Average Surface Temperature
-  - Dow's Lake: -2.3 °C
-  - Fifth Avenue: -2.2 °C
-  - NAC: -2.8 °C
+  - Dow's Lake: -0.2 °C
+  - Fifth Avenue: -0.6 °C
+  - NAC: 2.3 °C
 
 ### Sample Output Files in Blob Storage
-**Needs to be completed**
-
+The sampleOutputFile.json is uploaded to this repo as well. 
+```json
+{"DeviceId":"DowsLakeSensor","AvgIceThickness":33.2,"AvgSurfaceTemp":-0.2,"EventTime":"2024-12-02T21:57:00.0000000Z"}
+{"DeviceId":"NACSensor","AvgIceThickness":33.8,"AvgSurfaceTemp":-0.6,"EventTime":"2024-12-02T21:57:00.0000000Z"}
+{"DeviceId":"5thAveSensor","AvgIceThickness":37.8,"AvgSurfaceTemp":2.3,"EventTime":"2024-12-02T21:57:00.0000000Z"}
+{"DeviceId":"DowsLakeSensor","AvgIceThickness":38.0,"AvgSurfaceTemp":-0.7,"EventTime":"2024-12-02T21:58:00.0000000Z"}
+{"DeviceId":"NACSensor","AvgIceThickness":34.3,"AvgSurfaceTemp":-0.8,"EventTime":"2024-12-02T21:58:00.0000000Z"}
+{"DeviceId":"5thAveSensor","AvgIceThickness":42.5,"AvgSurfaceTemp":-2.0,"EventTime":"2024-12-02T21:58:00.0000000Z"}
+```
 ## Reflection
 Discuss any challenges faced during implementation and how they were addressed.
 **Needs to be completed**
