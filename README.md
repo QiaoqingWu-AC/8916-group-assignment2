@@ -268,4 +268,7 @@ The sampleOutputFile.json is uploaded to this repo as well.
 ```
 ## Reflection
 Discuss any challenges faced during implementation and how they were addressed.
-**Needs to be completed**
+### Simulating Multiple IoT Devices
+- **Challenge:** Ensuring that each device sends unique data to Azure IoT Hub while maintaining a streamlined simulation script.
+- **Solution:** Created three distinct devices in IoT Hub and used a single Node.js script to generate sensor data for all devices by looping through their connection strings.
+### Azure IoT Hub 
