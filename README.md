@@ -187,7 +187,7 @@ GROUP BY
   - Store data in **JSON** format for structure and readability:
   ```json
   {
-    "DeviceId": "Sensor1",
+    "DeviceId": "DowsLake",
     "AvgIceThickness": 28.5,
     "AvgSurfaceTemp": -1.3,
     "EventTime": "2024-12-02T12:00:00Z"
@@ -267,7 +267,6 @@ The sampleOutputFile.json is uploaded to this repo as well.
 {"DeviceId":"5thAveSensor","AvgIceThickness":42.5,"AvgSurfaceTemp":-2.0,"EventTime":"2024-12-02T21:58:00.0000000Z"}
 ```
 ## Reflection
-Discuss any challenges faced during implementation and how they were addressed.
 ### Simulating Multiple IoT Devices
 - **Challenge:** Ensuring that each device sends unique data to Azure IoT Hub while maintaining a streamlined simulation script.
 - **Solution:** Created three distinct devices in IoT Hub and used a single Node.js script to generate sensor data for all devices by looping through their connection strings.
