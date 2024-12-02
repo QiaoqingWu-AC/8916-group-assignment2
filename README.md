@@ -4,14 +4,14 @@ Group Member List
 - Watson-Danis, Caleb - 041041241
 - Wu, Qiaoqing - 041076817
 ## Scenario Description
-1. **Overview:**<br>
+### 1. Overview:
 The Rideau Canal Skateway in Ottawa is the world’s largest outdoor ice skating rink, attracting many visitors during the winter. To keep skaters safe, it's important to constantly monitor the ice conditions. Things like temperature, ice thickness, and weather can change quickly, and these changes affect whether the ice is safe to skate on.
 
-2. **Problem Addressed by the Solution:**<br>
+### 2. Problem Addressed by the Solution:
 The problem is that it's difficult to continuously monitor the ice conditions along such a large area. If the ice gets too thin or the weather becomes dangerous, it can be unsafe for skaters. Without a system to track these changes in real time, accidents could happen.
 
-3. **The Solution Overview:**<br>
-The solution is to build a real-time monitoring system that:<br>
+### 3. The Solution Overview:
+The solution is to build a real-time monitoring system that:
   - Simulates sensors to track ice and weather conditions along the canal.
   - IoT sensors pushing simulated data to Azure IoT Hub.
   - Proccess and analyzes the incoming data using Azure Stream Analytics to check if the conditions are safe or dangerous.
@@ -29,7 +29,6 @@ The simulated IoT sensors generate data using a script that mimics the real-worl
   - Snow Accumulation (cm): Ranges from 5 to 30.
   - External Temperature (°C): Ranges from -10 to 5, formatted to one decimal place.
   - Timestamp: The current date and time in ISO format.<br>
-
 
 The script uses the Azure IoT SDK for Node.js to send messages to Azure IoT Hub. Here's a breakdown steps:
   - Connection Setup
@@ -49,7 +48,7 @@ The script uses the Azure IoT SDK for Node.js to send messages to Azure IoT Hub.
   "surfaceTemperature": -1.4,
   "snowAccumulation": 8,
   "externalTemperature": -4.2,
-  "timestamp": "2024-11-23T12:00:00Z"
+  "timestamp": "2024-12-02T12:00:00Z"
 }
 ```
 
@@ -136,22 +135,21 @@ main();
   - Azure IoT Hub has a default endpoint called `messages/events`. This is where incoming device data is routed by default.
 #### 4. Configure Message Routing:
   - In the IoT Hub settings, go to **Message Routing**.
-  - Add a new route to direct messages to other Azure services, such as Azure Blob Storage or Stream 
+  - Add a new route to direct messages to other Azure services, such as Azure Blob Storage or Stream Analytics.
 
 ### Azure Stream Analytics Job
-Describe the job configuration, including input sources, query logic, and output destinations.
 #### 1. Create a Stream Analytics Job:
   - In the Azure Portal, search for **"Stream Analytics Job"** and click **Create**.
   - Provide a name, subscription (e.g., Azure for Students), resource group, and region (e.g., EAST US).
 #### 2. Input Source:
-  - 
-
-- **Sample SQL queries used for data processing.**
+  - Go to **Input**, choose **Add input**->**IoT Hub** and select the IoT Hub you created earlier.
+  - Use the default consumer group or create a new one.
+#### 3. SQL query used for data processing:
 ```sql
 SELECT
     IoTHub.ConnectionDeviceId AS DeviceId,
-    AVG(iceThickness) AS AvgIceThickness,
-    AVG(surfaceTemperature) AS AvgSurfaceTemp,
+    ROUND(AVG(iceThickness), 1) AS AvgIceThickness,
+    ROUND(AVG(surfaceTemperature), 1) AS AvgSurfaceTemp,
     System.Timestamp AS EventTime
 INTO
     [output1001]
@@ -160,9 +158,30 @@ FROM
 GROUP BY
     IoTHub.ConnectionDeviceId, TumblingWindow(second, 60)
 ```
+#### 4. Output Destination:
+  - Go to "Outputs", and add an **Azure Blob Storage** output.
+  - Select storage account and container.
+  - Choose **JSON** as the output format.
+
 ### Azure Blob Storage
-  - Explain how the processed data is organized in Blob Storage (e.g., folder structure, file naming convention).
-  - Specify the formats of stored data (JSON/CSV).
+#### 1. How the processed data is organized.
+  - Processed data is stored in a folder structure:
+  ```sql
+  /processed-data/{deviceId}/{year}/{month}/{day}/
+  ```
+  - Example: `/processed-data/Sensor1/2024/12/02/ice-data.json`
+  - Use descriptive names as file naming convention: `surface-temp-2024-12-02T00:00.json`
+#### 2. Data Format:
+  - Store data in **JSON** format for structure and readability:
+  ```json
+  {
+    "DeviceId": "Sensor1",
+    "AvgIceThickness": 28.5,
+    "AvgSurfaceTemp": -1.3,
+    "EventTime": "2024-12-02T12:00:00Z"
+  }
+  ```
+
 ## Usage Instructions
 ### Running the IoT Sensor Simulation:
 Step-by-step instructions for running the simulation script and Azure IoT Hub configuration
