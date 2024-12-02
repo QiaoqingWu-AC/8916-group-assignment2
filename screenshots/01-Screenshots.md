@@ -4,9 +4,10 @@
 
 ![IoTHub](./imgs/IoTHub.png)
 
-### 2. Add a device
+### 2. Add three devices
 
 ![CreateADevice](./imgs/CreateADevice.png)
+![threeDevices](./imgs/three-devices.png)
 
 ### 3. Copy the connection string after creating the device
 
