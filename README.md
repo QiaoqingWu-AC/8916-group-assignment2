@@ -185,35 +185,32 @@ GROUP BY
 ## Usage Instructions
 ### Running the IoT Sensor Simulation:
 Step-by-step instructions for running the simulation script and Azure IoT Hub configuration
-1. Create an IoT Hub in Azure
+#### 1. Clone the Repository
+```bash
+git clone https://github.com/QiaoqingWu-AC/8916-group-assignment2.git
+cd sensor-simulation
+```
+#### 2. Install Dependencies
+```bash
+npm install azure-iot-device azure-iot-device-mqtt
+```                       
+#### 3. Configure the Connection String
+  - Replace `ConnectionStringHere` in script (simulate-sensor.js) with the **Device Connection String** copied from Azure IoT Hub.
+#### 4. Run the Script to start simulating data
+  - The script will generate and send simulated sensor data to Azure IoT Hub every 10 seconds, and console logs indicating the data being sent.
+```bash
+node simulate-sensor.js
+```
 
-2. Register a Device                           
-
-3. Copy the connection string after creating the device
-4. Installing Required Libraries
-    - Navigate to the project directory: 
-    ```
-    cd sensor-simulation
-    ```
-    - Execute the following commands:
-    ```
-    npm install azure-iot-device azure-iot-device-mqtt
-    ```
-
-5. Replace connection string in script(simulate-sensors.js) w/ the connection string copied from device
-
-6. Run the script to start simulating sensor data
-    - In sensor-simulation directory, run:
-    ```
-    node simulate-sensors.js
-    ```
-    
+## BELOW NEEDS TO COMPLETE
 - **Configuring Azure Services**:
   - Describe how to set up and run the IoT Hub and Stream Analytics job.
 - **Accessing Stored Data**:
   - Include steps to locate and view the processed data in Azure Blob Storage.
+
 ## Results
 - Highlight key findings, such as: Aggregated data outputs (e.g. average ice thickness).
 - Include references to sample output files stored in Blob Storage.
+
 ## Reflection
 Discuss any challenges faced during implementation and how they were addressed.
