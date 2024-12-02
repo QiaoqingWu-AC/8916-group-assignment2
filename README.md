@@ -152,9 +152,9 @@ SELECT
     ROUND(AVG(surfaceTemperature), 1) AS AvgSurfaceTemp,
     System.Timestamp AS EventTime
 INTO
-    [BlobStorageOutput1001]
+    [output1001]
 FROM
-    [IoTHubInput1001]
+    [iothub1001]
 GROUP BY
     IoTHub.ConnectionDeviceId, TumblingWindow(second, 60)
 ```
