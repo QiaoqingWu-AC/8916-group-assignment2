@@ -24,91 +24,109 @@ The solution is to build a real-time monitoring system that:
 - Processed data being stored in Azure Blob Storage.
 ![diagram](./architecture-diagram.png)
 ## Implementation Details
-- **IoT Sensor Simulation**:
-  - Describe how the simulated IoT sensors generate and send data to Azure IoT Hub.
-  - Structure of the JSON payload:
-    ```json
-    {
-      "location": "Dow's Lake",
-      "iceThickness": 27,
-      "surfaceTemperature": -1,
-      "snowAccumulation": 8,
-      "externalTemperature": -4,
-      "timestamp": "2024-11-23T12:00:00Z"
-    }
-    ```
-    - scripts to simulate IoT sensors at three key locations on the Rideau Canal (e.g., Dow's Lake, Fifth Avenue, NAC):
-    ```javascript
-    const { Client } = require('azure-iot-device');
-    const { Mqtt } = require('azure-iot-device-mqtt');
-    const { Message } = require('azure-iot-device');
+### IoT Sensor Simulation
+- **How the simulated IoT sensors generate and send data to Azure IoT Hub.**
+The simulated IoT sensors generate data using a script that mimics the real-world behavior of physical sensors. Each simulated sensor is associated with a specific location on the Rideau Canal (e.g., Dow's Lake, Fifth Avenue, NAC). The script generates random values for key data such as:
+  - Ice Thickness (cm): Ranges from 20 to 50.
+  - Surface Temperature (°C): Ranges from -5 to 5, formatted to one decimal place.
+  - Snow Accumulation (cm): Ranges from 5 to 30.
+  - External Temperature (°C): Ranges from -10 to 5, formatted to one decimal place.
+  - Timestamp: The current date and time in ISO format.
+The script uses the Azure IoT SDK for Node.js to send messages to Azure IoT Hub. Here's a breakdown steps:
+  1. Connection Setup
+    - The script authenticates with Azure IoT Hub using a device connection string, which is unique for each registered IoT device.
+  2. IoT Hub Client
+    - A client object is created using the `azure-iot-device` and `azure-iot-device-mqtt` libraries, enabling secure communication with the IoT Hub.
+  3. Message Sending
+    - The generated data is encapsulated in a `Message` object.
+    - Each message is sent to Azure IoT Hub using the `sendEvent()` method.
+    - The process is repeated at regular intervals, e.g., every 10 seconds.
 
-    const CONNECTION_STRING = "ConnectionStringHere";
+- **Structure of the JSON payload:**
+  ```json
+  {
+    "location": "Dow's Lake",
+    "iceThickness": 27,
+    "surfaceTemperature": -1.4,
+    "snowAccumulation": 8,
+    "externalTemperature": -4.2,
+    "timestamp": "2024-11-23T12:00:00Z"
+  }
+  ```
+- **Scripts to simulate IoT sensors at three key locations on the Rideau Canal (e.g., Dow's Lake, Fifth Avenue, NAC):**
+  ```javascript
+  const { Client } = require('azure-iot-device');
+  const { Mqtt } = require('azure-iot-device-mqtt');
+  const { Message } = require('azure-iot-device');
 
-    // List of location to simulate
-    const LOCATIONS = ["Dow's Lake", "Fifth Avenue", "NAC"];
+  const CONNECTION_STRING = "ConnectionStringHere";
 
-    // Create an IoT Hub client
-    const client = Client.fromConnectionString(CONNECTION_STRING, Mqtt);
+  // List of location to simulate
+  const LOCATIONS = ["Dow's Lake", "Fifth Avenue", "NAC"];
 
-    // Function to generate random sensor data
-    function generateSensorData(location) {
-      return {
-        location,
-        iceThickness: Math.floor(Math.random() * (50 - 20 + 1) + 20), // random between 20-50cm
-        surfaceTemperature: parseFloat((Math.random() * (5 - (-5)) + (-5)).toFixed(1)), // random between -5 to 5°C with 1 decimal place
-        snowAccumulation: Math.floor(Math.random() * (30 - 5 + 1) + 5), // random between 5-30 cm
-        externalTemperature: parseFloat((Math.random() * (5 - (-10)) + (-10)).toFixed(1)), // random between -10 to 5 °C with 1 decimal place
-        timestamp: Date().toString() // local timestamp
-      };
-    }
+  // Create an IoT Hub client
+  const client = Client.fromConnectionString(CONNECTION_STRING, Mqtt);
 
-    // Function to send sensor data for all locations
-    function sendSensorData() {
-      LOCATIONS.forEach((location) => {
-        const data = generateSensorData(location);
-        const message = new Message(JSON.stringify(data)); // put message into JSON formate
-        // show data in console log
-        console.log(`Sending data: ${JSON.stringify(data)}`);
-        client.sendEvent(message, (err) => {
-          if (err) {
-            console.error(`Failed to send data: ${err.toString()}`);
-          } else {
-            console.log(`Message sent for location: ${location}`);
-          }
-        });
+  // Function to generate random sensor data
+  function generateSensorData(location) {
+    return {
+      location,
+      iceThickness: Math.floor(Math.random() * (50 - 20 + 1) + 20), // random between 20-50cm
+      surfaceTemperature: parseFloat((Math.random() * (5 - (-5)) + (-5)).toFixed(1)), // random between -5 to 5°C with 1 decimal place
+      snowAccumulation: Math.floor(Math.random() * (30 - 5 + 1) + 5), // random between 5-30 cm
+      externalTemperature: parseFloat((Math.random() * (5 - (-10)) + (-10)).toFixed(1)), // random between -10 to 5 °C with 1 decimal place
+      timestamp: Date().toString() // local timestamp
+    };
+  }
+
+  // Function to send sensor data for all locations
+  function sendSensorData() {
+    LOCATIONS.forEach((location) => {
+      const data = generateSensorData(location);
+      const message = new Message(JSON.stringify(data)); // put message into JSON formate
+      // show data in console log
+      console.log(`Sending data: ${JSON.stringify(data)}`);
+      client.sendEvent(message, (err) => {
+        if (err) {
+          console.error(`Failed to send data: ${err.toString()}`);
+        } else {
+          console.log(`Message sent for location: ${location}`);
+        }
       });
+    });
+  }
+
+  // Main function
+  async function main() {
+    try {
+      console.log("Connecting to IoT Hub ...");
+      await client.open();
+      console.log("Connected to IoT Hub. Starting simulation ...");
+      
+      // send data every 10 seconds (10000 milliseconds)
+      setInterval(() => {
+        sendSensorData();
+      }, 10000);
+    } catch (err) {
+      console.error(`Error: ${err.toString()}`);
     }
 
-    // Main function
-    async function main() {
-      try {
-        console.log("Connecting to IoT Hub ...");
-        await client.open();
-        console.log("Connected to IoT Hub. Starting simulation ...");
-        
-        // send data every 10 seconds (10000 milliseconds)
-        setInterval(() => {
-          sendSensorData();
-        }, 10000);
-      } catch (err) {
-        console.error(`Error: ${err.toString()}`);
-      }
+    // disconnect and exit when receive signal
+    process.on('SIGINT', async () => {
+      console.log("Disconnecting from IoT Hub ...");
+      await client.close();
+      console.log("Disconnected. Exiting ...");
+      process.exit();
+    });
+  }
 
-      // disconnect and exit when receive signal
-      process.on('SIGINT', async () => {
-        console.log("Disconnecting from IoT Hub ...");
-        await client.close();
-        console.log("Disconnected. Exiting ...");
-        process.exit();
-      });
-    }
+  main();
+  ```
 
-    main();
-    ```
-
-- **Azure IoT Hub Configuration**:
-  - Explain the configuration steps for setting up the IoT Hub, including endpoints and message routing.
+### Azure IoT Hub Configuration
+  - TODO: Explain the configuration steps for setting up the IoT Hub, including endpoints and message routing.
+  1. Create IoT Hub:
+  
 - **Azure Stream Analytics Job**:
   - Describe the job configuration, including input sources, query logic, and output destinations.
   - Sample SQL queries used for data processing.

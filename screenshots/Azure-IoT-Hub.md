@@ -21,9 +21,6 @@
 - Execute the following commands:
 
 **npm install azure-iot-device azure-iot-device-mqtt**
-**pip install azure-iot-device**
-
-(I've found that sometimes pip install was not enough)
 
 ## 5. Replace connection string in script(simulate-sensors.js) w/ the connection string copied from device
 
