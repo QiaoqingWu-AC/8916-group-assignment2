@@ -227,10 +227,21 @@ Follow these steps to locate and view the processed data in Azure Blob Storage:
   - Select a file (e.g., `ice-data-2024-11-23T00:00.json`) to download or view.
   - The files are stored in **JSON** format, which can be opened with a text editor or a JSON viewer.
 
-## BELOW NEED TO BE COMPLETED
 ## Results
-- Highlight key findings, such as: Aggregated data outputs (e.g. average ice thickness).
-- Include references to sample output files stored in Blob Storage.
+### Key Findings
+#### Average Ice Thickness
+Aggregated every 60 seconds for each location:
+  - Dow's Lake: 29.5 cm
+  - Fifth Avenue: 30.5 cm
+  - NAC: 27.0 cm
+#### Average Surface Temperature
+  - Dow's Lake: -2.3 °C
+  - Fifth Avenue: -2.2 °C
+  - NAC: -2.8 °C
+
+### Sample Output Files in Blob Storage
+**Needs to be completed**
 
 ## Reflection
 Discuss any challenges faced during implementation and how they were addressed.
+**Needs to be completed**
