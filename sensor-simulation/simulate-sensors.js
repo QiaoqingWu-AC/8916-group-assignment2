@@ -2,13 +2,21 @@ const { Client } = require('azure-iot-device');
 const { Mqtt } = require('azure-iot-device-mqtt');
 const { Message } = require('azure-iot-device');
 
-const CONNECTION_STRING = "ConnectionStringHere";
+// List of three devices' connection string
+const CONNECTION_STRINGS = {
+  "Dow's Lake": "ConnectionStringForDL",
+  "Fifth Avenue": "ConnectionStringForFA",
+  "NAC": "ConnectionStringForNAC"
+};
 
 // List of location to simulate
 const LOCATIONS = ["Dow's Lake", "Fifth Avenue", "NAC"];
 
-// Create an IoT Hub client
-const client = Client.fromConnectionString(CONNECTION_STRING, Mqtt);
+// Create IoT Hub clients for each device
+const clients = Object.keys(CONNECTION_STRINGS).map(location => {
+  const client = Client.fromConnectionString(CONNECTION_STRINGS[location], Mqtt);
+  return { location, client };
+});
 
 // Function to generate random sensor data
 function generateSensorData(location) {
@@ -24,18 +32,19 @@ function generateSensorData(location) {
 
 // Function to send sensor data for all locations
 function sendSensorData() {
-  LOCATIONS.forEach((location) => {
+  clients.forEach(({ location, client }) => {
     const data = generateSensorData(location);
-    const message = new Message(JSON.stringify(data)); // put message into JSON formate
+    // put message into JSON format
+    const message = new Message(JSON.stringify(data));
     // show data in console log
-    console.log(`Sending data: ${JSON.stringify(data)}`);
+    console.log(`Sending data from ${location}: ${JSON.stringify(data)}`);
     client.sendEvent(message, (err) => {
       if (err) {
-        console.error(`Failed to send data: ${err.toString()}`);
+        console.error(`Failed to send data from ${location}: ${err.toString()}`);
       } else {
         console.log(`Message sent for location: ${location}`);
       }
-    });
+    })
   });
 }
 
@@ -43,7 +52,8 @@ function sendSensorData() {
 async function main() {
   try {
     console.log("Connecting to IoT Hub ...");
-    await client.open();
+    // Open connections for all clients
+    await Promise.all(clients.map(({ client }) => client.open()));
     console.log("Connected to IoT Hub. Starting simulation ...");
     
     // send data every 10 seconds (10000 milliseconds)
@@ -57,7 +67,8 @@ async function main() {
   // disconnect and exit when receive signal
   process.on('SIGINT', async () => {
     console.log("Disconnecting from IoT Hub ...");
-    await client.close();
+    // Close connections for all clients
+    await Promise.all(clients.map(({ client }) => client.close()));
     console.log("Disconnected. Exiting ...");
     process.exit();
   });

@@ -131,6 +131,7 @@ main();
   - In the IoT Hub, go to **Devices** and click **Add Device**.
   - Provide a name for the device (e.g., Sensor1) and click **Save**.
   - Open the created device and copy the **Connection String** for later use in the simulation script.
+  - Create three **Devices** in total indicating the three locations on the Rideau Canal Skateway.
 #### 3. Set Up Endpoints:
   - Azure IoT Hub has a default endpoint called `messages/events`. This is where incoming device data is routed by default.
 #### 4. Configure Message Routing:
@@ -167,9 +168,9 @@ GROUP BY
 #### 1. How the processed data is organized.
   - Processed data is stored in a folder structure:
   ```sql
-  processed-data/{deviceId}/{date}/{time}
+  container1001/{deviceId}/{date}/{time}
   ```
-  - Example: `/processed-data/Sensor1/2024/12/02/ice-data.json`
+  - Example: `/container1001/Sensor1/2024/12/02/ice-data.json`
   - Use descriptive names as file naming convention: `surface-temp-2024-12-02T00:00.json`
 #### 2. Data Format:
   - Store data in **JSON** format for structure and readability:
