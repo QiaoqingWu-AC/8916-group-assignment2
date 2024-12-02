@@ -167,7 +167,7 @@ GROUP BY
 #### 1. How the processed data is organized.
   - Processed data is stored in a folder structure:
   ```sql
-  /processed-data/{deviceId}/{year}/{month}/{day}/
+  processed-data/{deviceId}/{date}/{time}
   ```
   - Example: `/processed-data/Sensor1/2024/12/02/ice-data.json`
   - Use descriptive names as file naming convention: `surface-temp-2024-12-02T00:00.json`
