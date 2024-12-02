@@ -36,14 +36,15 @@ node simulate-sensors.js
 
 ![newInput](./imgs/newInput.png)
 
-### 3. Add an output
+### 3. Follow steps in Azure-Blob-Storage.md before continuing to create Storage account & Container
+### 4. Add an output
 
 - **Go to outputs section and add an output, take note of config.**
 - **Choose the storage account you made.**
-![storageAccount](./imgs/storageAccount.png)
+
 ![newOutput](./imgs/newOutput.png)
 
-### 4. Make a query
+### 5. Make a query
 
 - **Go to the query tab and replace the query with the following:**
 ```sql
@@ -62,7 +63,7 @@ GROUP BY
 
 - **This query will calculate the average ice thickness & average surface temperature**
 
-### 5. Test the query and Start the Job
+### 6. Test the query and Start the Job
 
 ![QueryAndOutput](./imgs/QueryAndOutput.png)
 
