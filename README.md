@@ -271,4 +271,9 @@ Discuss any challenges faced during implementation and how they were addressed.
 ### Simulating Multiple IoT Devices
 - **Challenge:** Ensuring that each device sends unique data to Azure IoT Hub while maintaining a streamlined simulation script.
 - **Solution:** Created three distinct devices in IoT Hub and used a single Node.js script to generate sensor data for all devices by looping through their connection strings.
-### Azure IoT Hub 
+### Azure IoT Hub Configuration
+- **Challenge:** Configuring IoT Hub endpoints and ensuring messages from all devices were routed correctly to the Stream Analytics job.
+- **Solution:** Verified device connection strings and used the default message routing. After testing using query in Stream Analytics confirmed that messages reached the job.
+### Output Data to Blob Storage
+- **Challenge:** After starting job, the output data did not successfully reach the specified container in Blob Storage.
+- **Solution:** The pre-defined folder structure was not correctly aligned with the Storage Account and container name. After correcting the folder structure, the output data successfully reached the Blob Storage.
