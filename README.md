@@ -21,7 +21,7 @@ The solution is to build a real-time monitoring system that:
 ![diagram](./architecture-diagram.png)
 
 ## Implementation Details
-### IoT Sensor Simulation
+### Part 1: IoT Sensor Simulation
 #### 1. How the simulated IoT sensors generate and send data to Azure IoT Hub.
 The simulated IoT sensors generate data using a script that mimics the real-world behavior of physical sensors. Each simulated sensor is associated with a specific location on the Rideau Canal (e.g., Dow's Lake, Fifth Avenue, NAC). The script generates random values for key data such as:
   - Ice Thickness (cm): Ranges from 20 to 50.
@@ -122,7 +122,7 @@ async function main() {
 main();
 ```
 
-### Azure IoT Hub Configuration
+### Part 2: Azure IoT Hub Configuration
 #### 1. Create IoT Hub:
   - Go to the Azure Portal, search for **"IoT Hub"**, and click **Create**.
   - Fill in details like name, subscription (e.g., Azure for Students), resource group, and region (e.g., EAST US).
@@ -137,7 +137,7 @@ main();
   - In the IoT Hub settings, go to **Message Routing**.
   - Add a new route to direct messages to other Azure services, such as Azure Blob Storage or Stream Analytics.
 
-### Azure Stream Analytics Job
+### Part 3: Azure Stream Analytics Job
 #### 1. Create a Stream Analytics Job:
   - In the Azure Portal, search for **"Stream Analytics Job"** and click **Create**.
   - Provide a name, subscription (e.g., Azure for Students), resource group, and region (e.g., EAST US).
@@ -152,9 +152,9 @@ SELECT
     ROUND(AVG(surfaceTemperature), 1) AS AvgSurfaceTemp,
     System.Timestamp AS EventTime
 INTO
-    [output1001]
+    [BlobStorageOutput1001]
 FROM
-    [iothub1001]
+    [IoTHubInput1001]
 GROUP BY
     IoTHub.ConnectionDeviceId, TumblingWindow(second, 60)
 ```
@@ -163,7 +163,7 @@ GROUP BY
   - Select storage account and container.
   - Choose **JSON** as the output format.
 
-### Azure Blob Storage
+### Part 4: Azure Blob Storage
 #### 1. How the processed data is organized.
   - Processed data is stored in a folder structure:
   ```sql
@@ -183,7 +183,7 @@ GROUP BY
   ```
 
 ## Usage Instructions
-### Running the IoT Sensor Simulation:
+### Step 1: Running the IoT Sensor Simulation:
 Step-by-step instructions for running the simulation script and Azure IoT Hub configuration
 #### 1. Clone the Repository
 ```bash
@@ -195,19 +195,39 @@ cd sensor-simulation
 npm install azure-iot-device azure-iot-device-mqtt
 ```                       
 #### 3. Configure the Connection String
-  - Replace `ConnectionStringHere` in script (simulate-sensor.js) with the **Device Connection String** copied from Azure IoT Hub.
+  - Replace `ConnectionStringHere` in script `simulate-sensor.js` with the **Device Connection String** copied from Azure IoT Hub.
+  ```javascript
+  const CONNECTION_STRING = "ConnectionStringHere";
+  ```
 #### 4. Run the Script to start simulating data
   - The script will generate and send simulated sensor data to Azure IoT Hub every 10 seconds, and console logs indicating the data being sent.
 ```bash
 node simulate-sensor.js
 ```
 
-## BELOW NEEDS TO COMPLETE
-- **Configuring Azure Services**:
-  - Describe how to set up and run the IoT Hub and Stream Analytics job.
-- **Accessing Stored Data**:
-  - Include steps to locate and view the processed data in Azure Blob Storage.
+### Step 2: Configuring Azure Services
+#### 1. Set Up IoT Hub
+  - Open the Azure Portal, search for "IoT Hub," and create a new instance.
+  - Register a device in the IoT Hub and copy its connection string.
+#### 2. Create and Run Stream Analytics Job
+  - Go to the Azure Portal, search for "**Stream Analytics Jobs**" and create a new job.
+  - Add **IoT Hub** as the input source and configure the consumer group.
+  - Open the **Query Editor** and used the provided query.
+  - Add **Blob Storage** as the output destination.
+  - Click **Start** to begin processing incoming data.
 
+### Step 3: Accessing Stored Data
+Follow these steps to locate and view the processed data in Azure Blob Storage:
+#### 1. Open Azure Blob Storage
+  - Navigate to the storage account in the Azure Portal.
+  - Go to the **Containers** section and open the container used as the Stream Analytics
+#### 2. Locate Processed Data
+  - Browse the folder structure for `Sensor1` like: `/processed-data/Sensor1/2024/12/02/`.
+#### 3. Download or View Files
+  - Select a file (e.g., `ice-data-2024-11-23T00:00.json`) to download or view.
+  - The files are stored in **JSON** format, which can be opened with a text editor or a JSON viewer.
+
+## BELOW NEED TO BE COMPLETED
 ## Results
 - Highlight key findings, such as: Aggregated data outputs (e.g. average ice thickness).
 - Include references to sample output files stored in Blob Storage.
