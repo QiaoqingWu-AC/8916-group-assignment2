@@ -18,9 +18,10 @@
 
 ### 5. Run the script to start simulating sensor data
 
-- In sensor-simulation directory, run:
-
-**node simulate-sensors.js**
+- **In sensor-simulation directory, run:**
+```bash
+node simulate-sensors.js
+```
 
 ![SimulateSensorsTest](./SimulateSensorsTest.png)
 
