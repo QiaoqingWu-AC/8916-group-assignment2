@@ -138,10 +138,10 @@ main();
 
 ### Azure Stream Analytics Job
 Describe the job configuration, including input sources, query logic, and output destinations.
-1. **Create a Stream Analytics Job:**<br>
+#### 1. Create a Stream Analytics Job:
   - In the Azure Portal, search for **"Stream Analytics Job"** and click **Create**.
   - Provide a name, subscription (e.g., Azure for Students), resource group, and region (e.g., EAST US).
-2. **Input Source:**<br>
+#### **2. Input Source:**
 
 - **Sample SQL queries used for data processing.**
 ```sql
