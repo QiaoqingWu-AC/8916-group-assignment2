@@ -4,7 +4,7 @@
 
 - **Create a storage account with Azure Blob Storage as the primary service.**
 
-![storageAccount](./storageAccount.png)
+![storageAccount](./imgs/storageAccount.png)
 
 ## 2. Create a container
 
@@ -16,6 +16,6 @@
 
 - **Navigate to the container used for output.**
 
-![ContainerJson](./ContainerJson.png)
+![ContainerJson](./imgs/ContainerJson.png)
 
 - If all is working, there should be processed data in .json format.
