@@ -2,19 +2,19 @@
 ## Azure IoT Hub Configuration
 ### 1. Create an IoT Hub in Azure
 
-![IoTHub](./IoTHub.png)
+![IoTHub](./imgs/IoTHub.png)
 
 ### 2. Add a device
 
-![CreateADevice](./CreateADevice.png)
+![CreateADevice](./imgs/CreateADevice.png)
 
 ### 3. Copy the connection string after creating the device
 
-![ConnectionString](./ConnectionString.png)
+![ConnectionString](./imgs/ConnectionString.png)
 
 ### 4. Replace connection string in script(simulate-sensors.js) w/ the connection string copied from device
 
-![ReplaceConnectionString](./ReplaceConnectionString.png)
+![ReplaceConnectionString](./imgs/ReplaceConnectionString.png)
 
 ### 5. Run the script to start simulating sensor data
 
@@ -23,25 +23,25 @@
 node simulate-sensors.js
 ```
 
-![SimulateSensorsTest](./SimulateSensorsTest.png)
+![SimulateSensorsTest](./imgs/SimulateSensorsTest.png)
 
 ## Azure Stream Analytics job settings and queries
 ### 1. Create a Stream Analytics Job
 
-![StreamAnalyticsJob](./StreamAnalyticsJob.png)
+![StreamAnalyticsJob](./imgs/StreamAnalyticsJob.png)
 
 ### 2. Add an input
 
 - **Go to inputs section and add an input, take note of the config.**
 
-![newInput](./newInput.png)
+![newInput](./imgs/newInput.png)
 
 ### 3. Add an output
 
 - **Go to outputs section and add an output, take note of config.**
 - **Choose the storage account you made.**
-![storageAccount](./storageAccount.png)
-![newOutput](./newOutput.png)
+![storageAccount](./imgs/storageAccount.png)
+![newOutput](./imgs/newOutput.png)
 
 ### 4. Make a query
 
@@ -64,8 +64,8 @@ GROUP BY
 
 ### 5. Test the query and Start the Job
 
-![QueryAndOutput](./QueryAndOutput.png)
+![QueryAndOutput](./imgs/QueryAndOutput.png)
 
 ## Azure Blob Storage: Processed Data
-![ContainerJson](./ContainerJson.png)
-![ProcessedData](./ProcessedData.png)
+![ContainerJson](./imgs/ContainerJson.png)
+![ProcessedData](./imgs/ProcessedData.png)
